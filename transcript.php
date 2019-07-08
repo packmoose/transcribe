@@ -5,13 +5,16 @@ $data = json_decode(file_get_contents($file));
 $basename = basename($file);
 
 // Load up speaker labels.
-$labels = $data->results->speaker_labels->segments;
-$speaker_start_times = [];
-foreach ($labels as $label) {
-  foreach ($label->items as $item) {
-    $speaker_start_times[number_format($item->start_time, 3)] = $label->speaker_label;
+if($data->results->speaker_labels->segments != null) {
+  $labels = $data->results->speaker_labels->segments;
+  $speaker_start_times = [];
+  foreach ($labels as $label) {
+    foreach ($label->items as $item) {
+      $speaker_start_times[number_format($item->start_time, 3)] = $label->speaker_label;
+    }
   }
 }
+
 
 // Now we iterate through items and build the transcript
 $items = $data->results->items;
